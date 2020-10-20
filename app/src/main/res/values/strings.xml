@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Taskmaster</string>
+    <string name="app_title">Buy something</string>
+    <string name="add_task">Add task</string>
+</resources>
