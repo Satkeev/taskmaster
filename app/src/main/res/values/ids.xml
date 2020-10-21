@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="saveButton" type="id" />
+    <item name="editTextTextPostalAddress" type="id" />
+    <item name="goHome" type="id" />
+    <item name="editTextName" type="id" />
+    <item name="editUserName" type="id" />
+</resources>
