@@ -1,6 +1,8 @@
 package com.satkeev.github.taskmaster;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,12 +14,33 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity {
+import java.util.ArrayList;
+
+public class MainActivity extends AppCompatActivity implements TaskAdapter.OnInteractWithTaskListener  {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        ArrayList<Task> task = new ArrayList<>();
+        task.add(new Task("Soccer Schedule", "body", "state"));
+        task.add(new Task("Soccer Stadiums", "body", "state"));
+        task.add(new Task("Soccer Tickets", "body", "state"));
+
+//        RecyclerView recyclerView = findViewById(R.id.soccer_recycle);
+//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+//        recyclerView.setAdapter(new TaskAdapter(task, this));
+
+        Button allTasks = MainActivity.this.findViewById(R.id.alltasks_button);
+        allTasks.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                System.out.println("all tasks");
+                Intent allTasks = new Intent(MainActivity.this, TaskRecyclerView.class);
+                MainActivity.this.startActivity(allTasks);
+            }
+        });
 
         Button addTask = MainActivity.this.findViewById(R.id.button1);
         addTask.setOnClickListener(new View.OnClickListener() {
@@ -98,7 +121,12 @@ public class MainActivity extends AppCompatActivity {
         TextView address = findViewById(R.id.task_list_title);
         address.setText(preferences.getString("namePotato", "Go to Settings username"));
     }
+
+    @Override
+    public void tasksToDoListener(Task task) {
+
     }
+}
 
 
 
