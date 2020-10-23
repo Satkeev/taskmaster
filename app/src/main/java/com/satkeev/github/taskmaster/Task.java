@@ -1,7 +1,14 @@
 package com.satkeev.github.taskmaster;
 
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity
 public class Task {
-   public  String title;
+
+    @PrimaryKey(autoGenerate = true)
+    long id;
+    public  String title;
     public String body;
     public String state;
 

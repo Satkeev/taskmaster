@@ -13,14 +13,23 @@ import java.util.ArrayList;
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder> {
 
     public ArrayList<Task> tasks;
-    public OnInteractWithTaskListener listener;
+    public OnInteractingWithTaskListener listener;
 
 
-    public TaskAdapter(ArrayList<Task> tasks, OnInteractWithTaskListener listener) {
+    public TaskAdapter(ArrayList<Task> tasks, OnInteractingWithTaskListener listener) {
         this.tasks = tasks;
         this.listener = listener;
     }
 //TODO: create View holder
+    public static class TaskViewHolder extends RecyclerView.ViewHolder{
+        public Task task;
+        public View view;
+
+        public TaskViewHolder(@NonNull View itemView){
+          super(itemView);
+          this.view = view;
+        }
+}
 
     @NonNull
     @Override
@@ -35,14 +44,14 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
             @Override
             public void onClick(View view) {
                 System.out.println(viewHolder.task.title);
-                listener.tasksToDoListener(viewHolder.task);//TODO: create listener
+                listener.taskListener(viewHolder.task);
             }
         });
          return viewHolder;
     }
 
-    public static interface OnInteractWithTaskListener {
-        public void tasksToDoListener(Task task);
+    public static interface OnInteractingWithTaskListener {
+        public void taskListener(Task task);
     }
 
     @Override
@@ -63,16 +72,6 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         return tasks.size();
     }
 
-    // TODO: 1 create our viewHolder class
-//     view holder deals with passing the data from java to the fragment (List Item)
-    public static class TaskViewHolder extends RecyclerView.ViewHolder {
-        public Task task;
-        // store view, so I can change it from any external method
-        public View itemView;
-
-        public TaskViewHolder(@NonNull View itemView) {
-            super(itemView);
-            this.itemView = itemView;
         }
-    }
-}
+
+
