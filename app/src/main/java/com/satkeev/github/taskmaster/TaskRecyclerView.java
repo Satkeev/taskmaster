@@ -9,7 +9,7 @@ import android.os.Bundle;
 
 import java.util.ArrayList;
 
-public class TaskRecyclerView extends AppCompatActivity implements TaskAdapter.OnInteractWithTaskListener{
+public class TaskRecyclerView extends AppCompatActivity implements TaskAdapter.OnInteractingWithTaskListener{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,11 +33,12 @@ public class TaskRecyclerView extends AppCompatActivity implements TaskAdapter.O
     }
 
     @Override
-    public void tasksToDoListener(Task task){
+    public void taskListener(Task task){
         Intent intent = new Intent(TaskRecyclerView.this, TaskDetails.class);
         intent.putExtra("taskTitle", task.title);
         intent.putExtra("taskBody", task.body);
         intent.putExtra("taskState", task.state);
         this.startActivity(intent);
     }
+
 }

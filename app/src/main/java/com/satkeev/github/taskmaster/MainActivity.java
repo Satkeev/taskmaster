@@ -3,6 +3,7 @@ package com.satkeev.github.taskmaster;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,21 +17,28 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements TaskAdapter.OnInteractWithTaskListener  {
+public class MainActivity extends AppCompatActivity implements TaskAdapter.OnInteractingWithTaskListener  {
+
+    Database database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ArrayList<Task> task = new ArrayList<>();
-        task.add(new Task("Soccer Schedule", "body", "state"));
-        task.add(new Task("Soccer Stadiums", "body", "state"));
-        task.add(new Task("Soccer Tickets", "body", "state"));
+     database = Room.databaseBuilder(getApplicationContext(), Database.class, "satkeev_tasks")
+     .allowMainThreadQueries()
+     .build();
 
-//        RecyclerView recyclerView = findViewById(R.id.soccer_recycle);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-//        recyclerView.setAdapter(new TaskAdapter(task, this));
+        ArrayList<Task> tasks = (ArrayList<Task>) database.taskDao().getAllTasks();
+
+//        task.add(new Task("Soccer Schedule", "body", "state"));
+//        task.add(new Task("Soccer Stadiums", "body", "state"));
+//        task.add(new Task("Soccer Tickets", "body", "state"));
+
+        RecyclerView recyclerView = findViewById(R.id.soccer_recycle);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(new TaskAdapter(tasks, this));
 
         Button allTasks = MainActivity.this.findViewById(R.id.alltasks_button);
         allTasks.setOnClickListener(new View.OnClickListener() {
@@ -122,13 +130,18 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.OnInt
         address.setText(preferences.getString("namePotato", "Go to Settings username"));
     }
 
+//    @Override
+//    public void tasksToDoListener(Task task) {
+//
+//    }
+
     @Override
-    public void tasksToDoListener(Task task) {
+    public void taskListener(Task task) {
 
     }
 }
 
 
 
-//this is a my first code in Android
+
 
