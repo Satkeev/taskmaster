@@ -13,21 +13,51 @@
         android:text="Update UserName"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.435"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.049" />
+        app:layout_constraintVertical_bias="0.081" />
 
     <EditText
         android:id="@+id/editTextName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="168dp"
         android:ems="10"
         android:inputType="none"
         android:text="User name:"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.358"
+        app:layout_constraintHorizontal_bias="0.278"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <RadioGroup
+        android:id="@+id/heroytask_title"
+        android:layout_width="137dp"
+        android:layout_height="196dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.058"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/username_button" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.6">
+
+        <RadioButton
+            android:id="@+id/heroy1_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Team1" />
+
+        <RadioButton
+            android:id="@+id/heroy2_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Team2" />
+
+        <RadioButton
+            android:id="@+id/heroy3_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Team3" />
+    </RadioGroup>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

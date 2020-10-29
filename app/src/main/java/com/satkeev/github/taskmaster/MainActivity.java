@@ -27,6 +27,7 @@ import com.amplifyframework.api.graphql.model.ModelMutation;
 import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.Task;
+import com.amplifyframework.datastore.generated.model.Team;
 
 import java.util.ArrayList;
 
@@ -34,8 +35,13 @@ import io.reactivex.annotations.NonNull;
 
 public class MainActivity extends AppCompatActivity implements TaskAdapter.OnInteractingWithTaskListener {
 
-    Database database;
+//    Database database;
     ArrayList<Task> tasks;
+    ArrayList<Team> teams;
+    RecyclerView recyclerView;
+    Handler handler;
+    Handler handleSingleItemAdded;
+    int teamWeAreOnIndex = 0;
 
 
     @Override
@@ -54,14 +60,15 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.OnInt
         setContentView(R.layout.activity_main);
 
 
-        database = Room.databaseBuilder(getApplicationContext(), Database.class, "satkeev_tasks")
-                .fallbackToDestructiveMigration()
-//                .addMigrations((1, 1), 2)
-                .allowMainThreadQueries()
-                .build();
+//        database = Room.databaseBuilder(getApplicationContext(), Database.class, "satkeev_tasks")
+//                .fallbackToDestructiveMigration()
+////                .addMigrations((1, 1), 2)
+//                .allowMainThreadQueries()
+//                .build();
 
 
         configureAws();
+
 
         Button allTasks = MainActivity.this.findViewById(R.id.alltasks_button);
         allTasks.setOnClickListener(new View.OnClickListener() {
@@ -146,6 +153,35 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.OnInt
     this.startActivity(intent);
     }
 
+    public void setUpThreeTeams() {
+        Team team1 = Team.builder()
+                .name("Team1")
+                .build();
+
+        Team team2 = Team.builder()
+                .name("Team2")
+                .build();
+
+        Team team3 = Team.builder()
+                .name("Team3")
+                .build();
+
+        Amplify.API.mutate(ModelMutation.create(team1),
+                response -> Log.i("Amplify", "added a team"),
+                error -> Log.e("Amplify", "failed to add a team")
+        );
+
+        Amplify.API.mutate(ModelMutation.create(team2),
+                response -> Log.i("Amplify", "added a team"),
+                error -> Log.e("Amplify", "failed to add a team")
+        );
+
+        Amplify.API.mutate(ModelMutation.create(team3),
+                response -> Log.i("Amplify", "added a team"),
+                error -> Log.e("Amplify", "failed to add a team")
+        );
+
+    }
     private void configureAws() {
         try {
             // entire configuration
