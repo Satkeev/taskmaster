@@ -5,6 +5,36 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <RadioGroup
+        android:id="@+id/heroytask_title"
+        android:layout_width="137dp"
+        android:layout_height="196dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.058"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.736">
+
+        <RadioButton
+            android:id="@+id/heroy1_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Team1" />
+
+        <RadioButton
+            android:id="@+id/heroy2_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Team2" />
+
+        <RadioButton
+            android:id="@+id/heroy3_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Team3" />
+    </RadioGroup>
+
     <TextView
         android:id="@+id/add_task"
         android:layout_width="wrap_content"
@@ -13,25 +43,27 @@
         android:textSize="30sp"
         app:layout_constraintBottom_toTopOf="@+id/add_task_title"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.534"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
     <TextView
         android:id="@+id/add_task_title"
         android:layout_width="110dp"
         android:layout_height="46dp"
-        android:layout_marginBottom="76dp"
+        android:layout_marginBottom="12dp"
         android:text="Task Title"
         app:layout_constraintBottom_toTopOf="@+id/nameoftask"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.534"
+        app:layout_constraintHorizontal_bias="0.558"
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
         android:id="@+id/nameoftask"
         android:layout_width="293dp"
         android:layout_height="39dp"
-        android:layout_marginTop="76dp"
+        android:layout_marginTop="44dp"
         android:ems="10"
         android:inputType="none"
         android:text="My Task"
@@ -43,7 +75,7 @@
         android:id="@+id/task_title_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="52dp"
+        android:layout_marginTop="36dp"
         android:text="Task Description"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -76,10 +108,10 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="56dp"
+        android:layout_marginTop="24dp"
         android:text="TextView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/task_description" />
 
@@ -92,6 +124,8 @@
         android:text="StatusTask"
         app:layout_constraintBottom_toTopOf="@+id/addtaskbutton"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.835"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+        app:layout_constraintTop_toBottomOf="@+id/textView2"
+        app:layout_constraintVertical_bias="0.43" />
 </androidx.constraintlayout.widget.ConstraintLayout>

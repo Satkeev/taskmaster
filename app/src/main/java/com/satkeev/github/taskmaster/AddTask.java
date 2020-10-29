@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -13,21 +15,38 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
 
 import com.amplifyframework.api.graphql.model.ModelMutation;
+import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.Task;
+import com.amplifyframework.datastore.generated.model.Team;
+
+import java.util.ArrayList;
 
 public class AddTask extends AppCompatActivity implements TaskAdapter.OnInteractingWithTaskListener {
 
-        Database database;
+        ArrayList<Team> teams;
+
+//        Database database;
         @Override
         protected void onCreate (Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_task);
 
+        Amplify.API.query(ModelQuery.list(Team.class),
+                response -> {
+                    teams = new ArrayList<>();
+                    for(Team team : response.getData()){
+                        teams.add(team);
 
-        database = Room.databaseBuilder(getApplicationContext(), Database.class, "satkeev_tasks")
-                .allowMainThreadQueries()
-                .build();
+                    }
+                },
+                error -> Log.e(  "AmplifyAddTask",  "failed getting teams"));
+
+
+
+//        database = Room.databaseBuilder(getApplicationContext(), Database.class, "satkeev_tasks")
+//                .allowMainThreadQueries()
+//                .build();
 
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -44,6 +63,18 @@ public class AddTask extends AppCompatActivity implements TaskAdapter.OnInteract
 
             @Override
             public void onClick(View view) {
+                RadioGroup heroy = findViewById(R.id.heroytask_title);
+                RadioButton checkbutton = findViewById(heroy.getCheckedRadioButtonId());
+                String teamName = checkbutton.getText().toString();
+                Team team = null;
+                for(int i=0; i<teams.size(); i++){
+                  if(teams.get(i).getName().equals(teamName)){
+                  team = teams.get(i);
+                  }
+                }
+                System.out.println(teamName);
+                System.out.println(teams);
+
 
                 toast.show();
 
@@ -54,7 +85,11 @@ public class AddTask extends AppCompatActivity implements TaskAdapter.OnInteract
                 Task taskToAdd = Task.builder()
                 .title(task_title.getText().toString())
                  .body(task_description.getText().toString())
-                 .state(task_state.getText().toString()).build();
+                 .state(task_state.getText().toString())
+                        .apartOf(team)
+                        .build();
+
+
 
                 Amplify.API.mutate(ModelMutation.create(taskToAdd),
                         response -> Log.i("Amplify", "Successfully added " + taskToAdd.getTitle()),
