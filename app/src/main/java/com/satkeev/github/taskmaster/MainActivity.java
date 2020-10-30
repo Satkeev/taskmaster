@@ -51,6 +51,29 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.OnInt
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         TextView address = findViewById(R.id.task_list_title);
         address.setText(preferences.getString("namePotato", "Go to Settings username"));
+
+        Amplify.API.query(
+                ModelQuery.list(Task.class),
+                response -> {
+                    tasks.clear();
+                    for (Task task : response.getData()) {
+                        if(preferences.contains("heroy")){
+                            if(task.apartOf.getName().equals(preferences.getString("heroy", "na"))){
+                                tasks.add(task);
+                            }
+                        } else {
+                            tasks.add(task);
+                        }
+                        System.out.println(task.toString());
+                    }
+
+                    handler.sendEmptyMessage(1);
+                    Log.i("Amplify.queryitems", "Got this many items from dynamo " + tasks.size());
+
+                },
+                error -> Log.i("Amplify.queryitems", "Did not get items"));
+
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -69,6 +92,22 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.OnInt
 
 
         configureAws();
+
+        tasks = new ArrayList<Task>();
+
+        RecyclerView recyclerView = findViewById(R.id.soccer_recycle);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(new TaskAdapter(tasks, this));
+
+        handler = new Handler(Looper.getMainLooper(),
+                new Handler.Callback() {
+                    @Override
+                    public boolean handleMessage(@NonNull Message message) {
+                        recyclerView.getAdapter().notifyDataSetChanged();
+                        return true;
+                    }
+                });
+
 
 
         Button allTasks = MainActivity.this.findViewById(R.id.alltasks_button);
@@ -201,33 +240,11 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.OnInt
 //                .allowMainThreadQueries()
 //                .build();
 
-         tasks = new ArrayList<Task>();
 
-        RecyclerView recyclerView = findViewById(R.id.soccer_recycle);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(new TaskAdapter(tasks, this));
 
-        Handler handler = new Handler(Looper.getMainLooper(),
-                new Handler.Callback() {
-                    @Override
-                    public boolean handleMessage(@NonNull Message message) {
-                        recyclerView.getAdapter().notifyDataSetChanged();
-                        return false;
-                    }
-                });
 
-        Amplify.API.query(
-                ModelQuery.list(Task.class),
-                response -> {
-                    for (Task task : response.getData()) {
-                        tasks.add(task);
-                    }
 
-                    handler.sendEmptyMessage(1);
-                    Log.i("Amplify.queryitems", "Got this many items from dynamo " + tasks.size());
 
-                },
-                error -> Log.i("Amplify.queryitems", "Did not get items"));
 
 
 //    Amplify.API.mutate(ModelMutation.create(task),

@@ -31,6 +31,8 @@ public class Settings extends AppCompatActivity {
                     }
                     EditText name = Settings.this.findViewById(R.id.editTextName);
                     preferenceEditor.putString("namePotato", name.getText().toString());
+                    preferenceEditor.putString("heroy", checkbutton.getText().toString());
+
                     preferenceEditor.apply();
                     System.out.println(name.getText().toString());
 
