@@ -60,6 +60,7 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.OnInt
         setContentView(R.layout.activity_main);
 
 
+
 //        database = Room.databaseBuilder(getApplicationContext(), Database.class, "satkeev_tasks")
 //                .fallbackToDestructiveMigration()
 ////                .addMigrations((1, 1), 2)
@@ -155,15 +156,15 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.OnInt
 
     public void setUpThreeTeams() {
         Team team1 = Team.builder()
-                .name("Team1")
+                .name("Manas")
                 .build();
 
         Team team2 = Team.builder()
-                .name("Team2")
+                .name("Semetey")
                 .build();
 
         Team team3 = Team.builder()
-                .name("Team3")
+                .name("Seytek")
                 .build();
 
         Amplify.API.mutate(ModelMutation.create(team1),
