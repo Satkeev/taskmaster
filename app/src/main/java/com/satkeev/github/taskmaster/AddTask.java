@@ -74,7 +74,7 @@ public class AddTask extends AppCompatActivity implements TaskAdapter.OnInteract
                 }
                 System.out.println(teamName);
                 System.out.println(teams);
-
+                System.out.println(team);
 
                 toast.show();
 
@@ -89,7 +89,7 @@ public class AddTask extends AppCompatActivity implements TaskAdapter.OnInteract
                         .apartOf(team)
                         .build();
 
-
+                System.out.println(taskToAdd.toString());
 
                 Amplify.API.mutate(ModelMutation.create(taskToAdd),
                         response -> Log.i("Amplify", "Successfully added " + taskToAdd.getTitle()),

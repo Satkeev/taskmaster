@@ -26,9 +26,13 @@ public class Settings extends AppCompatActivity {
                 public void onClick(View view) {
                     RadioGroup heroy = findViewById(R.id.heroytask_title);
                     RadioButton checkbutton = findViewById(heroy.getCheckedRadioButtonId());
-                    preferenceEditor.putString("heroy", checkbutton.getText().toString());
+                    if(checkbutton != null) {
+                        preferenceEditor.putString("heroy", checkbutton.getText().toString());
+                    }
                     EditText name = Settings.this.findViewById(R.id.editTextName);
-                    preferenceEditor.putString("username", name.getText().toString());
+                    preferenceEditor.putString("namePotato", name.getText().toString());
+                    preferenceEditor.putString("heroy", checkbutton.getText().toString());
+
                     preferenceEditor.apply();
                     System.out.println(name.getText().toString());
 
