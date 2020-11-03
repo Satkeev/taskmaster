@@ -4,7 +4,6 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.room.Room;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,15 +15,14 @@ import android.os.Message;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.amplifyframework.AmplifyException;
 import com.amplifyframework.api.aws.AWSApiPlugin;
 import com.amplifyframework.api.graphql.model.ModelMutation;
 import com.amplifyframework.api.graphql.model.ModelQuery;
+import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.Task;
 import com.amplifyframework.datastore.generated.model.Team;
@@ -35,7 +33,7 @@ import io.reactivex.annotations.NonNull;
 
 public class MainActivity extends AppCompatActivity implements TaskAdapter.OnInteractingWithTaskListener {
 
-//    Database database;
+    //    Database database;
     ArrayList<Task> tasks;
     ArrayList<Team> teams;
     RecyclerView recyclerView;
@@ -43,6 +41,7 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.OnInt
     Handler handleSingleItemAdded;
     int teamWeAreOnIndex = 0;
 
+    Handler handleCheckLoggedIn;
 
     @Override
     public void onResume() { // this is probably the correct place for ALL rendered info
@@ -57,8 +56,8 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.OnInt
                 response -> {
                     tasks.clear();
                     for (Task task : response.getData()) {
-                        if(preferences.contains("heroy")){
-                            if(task.apartOf.getName().equals(preferences.getString("heroy", "na"))){
+                        if (preferences.contains("heroy")) {
+                            if (task.apartOf.getName().equals(preferences.getString("heroy", "na"))) {
                                 tasks.add(task);
                             }
                         } else {
@@ -83,15 +82,26 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.OnInt
         setContentView(R.layout.activity_main);
 
 
+        handleCheckLoggedIn = new Handler(Looper.getMainLooper(), message -> {
+            if (message.arg1 == 0) {
+                Log.i("Amplify.login", "handler: they were not logged in");
+            } else if (message.arg1 == 1) {
+                Log.i("Amplify.login", "handler: they were logged in");
+                // TODO: display their username
+                Log.i("Amplify.user", Amplify.Auth.getCurrentUser().getUsername());
 
-//        database = Room.databaseBuilder(getApplicationContext(), Database.class, "satkeev_tasks")
-//                .fallbackToDestructiveMigration()
-////                .addMigrations((1, 1), 2)
-//                .allowMainThreadQueries()
-//                .build();
+                TextView usernameView = findViewById(R.id.name_title);
+                usernameView.setText(Amplify.Auth.getCurrentUser().getUsername());
+
+            } else {
+                Log.i("Amplify.login", "send true or false pls");
+            }
+            return false;
+        });
 
 
         configureAws();
+
 
         tasks = new ArrayList<Task>();
 
@@ -107,8 +117,15 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.OnInt
                         return true;
                     }
                 });
+//
+//
 
-
+//        Amplify.Auth.signIn(
+//                "Kamit",
+//                "Nasip2001$",
+//                result -> Log.i("AuthQuickstart", result.isSignInComplete() ? "Sign in succeeded" : "Sign in not complete"),
+//                error -> Log.e("AuthQuickstart", error.toString())
+//        );
 
         Button allTasks = MainActivity.this.findViewById(R.id.alltasks_button);
         allTasks.setOnClickListener(new View.OnClickListener() {
@@ -180,32 +197,70 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.OnInt
                 MainActivity.this.startActivity(settings);
             }
         });
-    }
 
+
+    Button signin = MainActivity.this.findViewById(R.id.login_button);
+        signin.setOnClickListener(new View.OnClickListener()
+
+    {
+        @Override
+        public void onClick (View view){
+        System.out.println("signin");
+        Intent login = new Intent(MainActivity.this, SignInActivity.class);
+        MainActivity.this.startActivity(login);
+    }
+    });
+
+        Button signup = MainActivity.this.findViewById(R.id.signup_button);
+        signup.setOnClickListener(new View.OnClickListener()
+
+        {
+            @Override
+            public void onClick (View view){
+                System.out.println("signup");
+                Intent signup = new Intent(MainActivity.this, Signup.class);
+                MainActivity.this.startActivity(signup);
+            }
+        });
+
+        Button logou= MainActivity.this.findViewById(R.id.logout_button);
+        logou.setOnClickListener(new View.OnClickListener()
+
+        {
+            @Override
+            public void onClick (View view){
+                System.out.println("logou");
+                Amplify.Auth.signOut(
+                        () -> Log.i("AuthQuickstart", "Signed out successfully"),
+                        error -> Log.e("AuthQuickstart", error.toString())
+                );
+            }
+        });
+
+}
 
 
     @Override
     public void taskListener(Task task) {
-    Intent intent = new Intent(MainActivity.this, TaskDetails.class);
-    intent.putExtra("title", task.getTitle());
-    intent.putExtra("body", task.getBody());
-    intent.putExtra("state", task.getState());
-    this.startActivity(intent);
+        Intent intent = new Intent(MainActivity.this, TaskDetails.class);
+        intent.putExtra("title", task.getTitle());
+        intent.putExtra("body", task.getBody());
+        intent.putExtra("state", task.getState());
+        this.startActivity(intent);
     }
 
     public void setUpThreeTeams() {
         Team team1 = Team.builder()
-                .name("Manas")
+                .name("Team1")
                 .build();
 
         Team team2 = Team.builder()
-                .name("Semetey")
+                .name("Team2")
                 .build();
 
         Team team3 = Team.builder()
-                .name("Seytek")
+                .name("Team3")
                 .build();
-
         Amplify.API.mutate(ModelMutation.create(team1),
                 response -> Log.i("Amplify", "added a team"),
                 error -> Log.e("Amplify", "failed to add a team")
@@ -221,41 +276,87 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.OnInt
                 error -> Log.e("Amplify", "failed to add a team")
         );
 
+
     }
-    private void configureAws() {
-        try {
-            // entire configuration
-            Amplify.addPlugin(new AWSApiPlugin());
-            Amplify.configure(getApplicationContext());
-            Log.i("MyAmplifyApp", "Initialized Amplify");
-        } catch (AmplifyException e) {
-            e.printStackTrace();
-            Log.e("MyAmplifyApp", "Could not initialize Amplify", e);
+
+        public void addListenersToButtons() {
+            Button login = findViewById(R.id.login_button);
+            Button signup = findViewById(R.id.signup_button);
+            login.setOnClickListener(view -> this.startActivity(new Intent(this, SignInActivity.class)));
+            signup.setOnClickListener(view -> this.startActivity(new Intent(this, Signup.class)));
         }
+            public void loginMockUser () {
+                Amplify.Auth.signIn(
+                        "Kamit",
+                        "Nasip2001$",
+                        result -> {
+                            Log.i("Amplify.login", result.isSignInComplete() ? "Sign in succeeded" : "Sign in not complete");
+                            getIsSignedIn();
+                        },
+                        error -> Log.e("Amplify.login", error.toString())
+                );
+            }
+
+            public void verifyOneMockUser () {
+                Amplify.Auth.confirmSignUp(
+                        "Kamit",
+                        "433191",
+                        result -> Log.i("Amplify.confirm", result.isSignUpComplete() ? "Confirm signUp succeeded" : "Confirm sign up not complete"),
+                        error -> Log.e("Amplify.confirm", error.toString())
+                );
+            }
 
 
-//    private void configureDB() {
-//        database = Room.databaseBuilder(getApplicationContext(), Database.class, "satkeev_tasks")
-//                .fallbackToDestructiveMigration()
-//                .allowMainThreadQueries()
-//                .build();
-
-
-
-
-
-
-
-
-//    Amplify.API.mutate(ModelMutation.create(task),
-//    response -> Log.i("Amplify", "successfully added " + itemName),
-//    error -> Log.e("Amplify", error.toString()));
+//                // TODO: we need to collect from the user: username, password and email
+//                Amplify.Auth.signUp(
+//                        "Kamit",
+//                        "Nasip2001$",
+//                        AuthSignUpOptions.builder().userAttribute(AuthUserAttributeKey.email(), "nick.carignan@codefellows.com").build(),
+//                        result -> Log.i("Amplify.signup", "Result: " + result.toString()),
+//                        error -> Log.e("Amplify.signup", "Sign up failed", error)
+//                );
 //
-//                database.taskDao().saveTheThing(task);
+//            }
+
+            public void getIsSignedIn () {
+                Amplify.Auth.fetchAuthSession(
+                        result -> {
+                            Log.i("Amplify.login", result.toString());
+                            Message message = new Message();
+
+                            if (result.isSignedIn()) {
+                                message.arg1 = 1;
+                                handleCheckLoggedIn.sendMessage(message);
+                            } else {
+                                message.arg1 = 0;
+                                handleCheckLoggedIn.sendMessage(message);
+                            }
+                        },
+                        error -> Log.e("Amplify.login", error.toString())
+                );
+            }
+
+
+        private void configureAws () {
+            try {
+                // entire configuration
+                Amplify.addPlugin(new AWSApiPlugin());
+                // Add this line, to include the Auth plugin.
+                Amplify.addPlugin(new AWSCognitoAuthPlugin());
+                Amplify.configure(getApplicationContext());
+                Log.i("MyAmplifyApp", "Initialized Amplify");
+            } catch (AmplifyException e) {
+                e.printStackTrace();
+                Log.e("MyAmplifyApp", "Could not initialize Amplify", e);
+            }
+
+            Amplify.Auth.fetchAuthSession(
+                    result -> Log.i("AmplifyQuickstart", result.toString()),
+                    error -> Log.e("AmplifyQuickstart", error.toString())
+            );
+
+        }
     }
-}
-
-
 
 
 

@@ -43,22 +43,23 @@
         app:layout_constraintVertical_bias="0.6">
 
         <RadioButton
-            android:id="@+id/heroy1_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Team1" />
-
-        <RadioButton
-            android:id="@+id/heroy2_button"
+            android:id="@+id/heroy3_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Team2" />
+            android:text="Team3" />
 
         <RadioButton
             android:id="@+id/heroy3_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Team3" />
+            android:text="Team2" />
+
+        <RadioButton
+            android:id="@+id/heroy1_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Team1" />
+
     </RadioGroup>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
