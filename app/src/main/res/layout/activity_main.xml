@@ -34,6 +34,7 @@
         android:id="@+id/alltasks_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:text="All tasks"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -55,6 +56,7 @@
         android:id="@+id/settings_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:text="Settings"
         app:layout_constraintEnd_toStartOf="@+id/alltasks_button"
         app:layout_constraintHorizontal_bias="0.5"
@@ -95,11 +97,10 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/soccer_recycle"
-        android:layout_width="409dp"
-        android:layout_height="220dp"
-        android:layout_marginTop="64dp"
+        android:layout_width="387dp"
+        android:layout_height="172dp"
+        android:layout_marginTop="52dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/task_list_title" />
 
