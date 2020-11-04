@@ -7,8 +7,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.FileUtils;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
@@ -16,6 +18,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.amplifyframework.AmplifyException;
@@ -26,7 +29,14 @@ import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.Task;
 import com.amplifyframework.datastore.generated.model.Team;
+import com.amplifyframework.storage.s3.AWSS3StoragePlugin;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 import io.reactivex.annotations.NonNull;
@@ -75,6 +85,9 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.OnInt
 
     }
 
+
+
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,6 +114,7 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.OnInt
 
 
         configureAws();
+//        downloadFile();
 
 
         tasks = new ArrayList<Task>();
@@ -117,22 +131,16 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.OnInt
                         return true;
                     }
                 });
-//
-//
 
-//        Amplify.Auth.signIn(
-//                "Kamit",
-//                "Nasip2001$",
-//                result -> Log.i("AuthQuickstart", result.isSignInComplete() ? "Sign in succeeded" : "Sign in not complete"),
-//                error -> Log.e("AuthQuickstart", error.toString())
-//        );
+
+
 
         Button allTasks = MainActivity.this.findViewById(R.id.alltasks_button);
         allTasks.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 System.out.println("all tasks");
-                Intent allTasks = new Intent(MainActivity.this, TaskRecyclerView.class);
+                Intent allTasks = new Intent(MainActivity.this, TaskDetails.class);
                 MainActivity.this.startActivity(allTasks);
             }
         });
@@ -307,17 +315,6 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.OnInt
             }
 
 
-//                // TODO: we need to collect from the user: username, password and email
-//                Amplify.Auth.signUp(
-//                        "Kamit",
-//                        "Nasip2001$",
-//                        AuthSignUpOptions.builder().userAttribute(AuthUserAttributeKey.email(), "nick.carignan@codefellows.com").build(),
-//                        result -> Log.i("Amplify.signup", "Result: " + result.toString()),
-//                        error -> Log.e("Amplify.signup", "Sign up failed", error)
-//                );
-//
-//            }
-
             public void getIsSignedIn () {
                 Amplify.Auth.fetchAuthSession(
                         result -> {
@@ -343,6 +340,7 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.OnInt
                 Amplify.addPlugin(new AWSApiPlugin());
                 // Add this line, to include the Auth plugin.
                 Amplify.addPlugin(new AWSCognitoAuthPlugin());
+                Amplify.addPlugin(new AWSS3StoragePlugin());
                 Amplify.configure(getApplicationContext());
                 Log.i("MyAmplifyApp", "Initialized Amplify");
             } catch (AmplifyException e) {
