@@ -44,33 +44,10 @@ public class TaskDetails extends AppCompatActivity {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.task_details);
             Intent intent = getIntent();
-//            System.out.println(intent.getExtras().getString("soccer"));
-//
-//            TextView itemNameView = TaskDetails.this.findViewById(R.id.task_details_text);
-//            itemNameView.setText(intent.getExtras().getString("soccer"));
-
-
-//            RecyclerView recyclerView = findViewById(R.id.soccer_task_recycle);
-//            LinearLayoutManager l = new LinearLayoutManager(this);
-//            recyclerView.setLayoutManager(l);
-//            recyclerView.setAdapter(new TaskAdapter(tasks, (TaskAdapter.OnInteractingWithTaskListener) this));
 
             Button getimage = com.satkeev.github.taskmaster.TaskDetails.this.findViewById(R.id.imagepic_button);
             getimage.setOnClickListener((view -> retrieveFile()));
-
-
-
-
         }
-
-//                @Override
-//                public void onClick(View view) {
-//                    Intent taskDetails = new Intent(com.satkeev.github.taskmaster.TaskDetails.this, MainActivity.class);
-//                    com.satkeev.github.taskmaster.TaskDetails.this.startActivity(taskDetails);
-//                }
-//            });
-
-
 
     @RequiresApi(api = Build.VERSION_CODES.Q)
     @Override // This built in method we are overriding handles ALL results from when we leave the app
@@ -85,6 +62,7 @@ public class TaskDetails extends AppCompatActivity {
             File fileCopy = new File(getFilesDir(), "test file");
 
             try {
+                System.out.println(data);
                 InputStream inStream = getContentResolver().openInputStream(data.getData());
                 FileUtils.copy(inStream, new FileOutputStream(fileCopy));
             } catch (IOException e) {
