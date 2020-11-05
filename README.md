@@ -58,3 +58,6 @@ created activities for signup, user confirmation, and login
 linked new activites to user authentication operations
 added logout button
 adjusted main page to display signed in username
+11/03/20
+added AWS S3 files for use S3 storage, and upload, retrieve files with
+images
