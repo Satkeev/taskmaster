@@ -10,6 +10,11 @@ import android.widget.RadioGroup;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.amplifyframework.analytics.AnalyticsEvent;
+import com.amplifyframework.core.Amplify;
+
+import java.util.Date;
+
 
 public class Settings extends AppCompatActivity {
 
@@ -36,6 +41,12 @@ public class Settings extends AppCompatActivity {
                     preferenceEditor.apply();
                     System.out.println(name.getText().toString());
 
+                    AnalyticsEvent event = AnalyticsEvent.builder()
+                            .name("setTask")
+                            .addProperty("time", Long.toString(new Date().getTime()))
+                            .addProperty("setTask", "set task")
+                            .build();
+                    Amplify.Analytics.recordEvent(event);
 
 //                    Toast toast = Toast.makeText(this, "You saved your name", Toast.LENGTH_LONG);
 //

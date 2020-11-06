@@ -1,0 +1,22 @@
+{
+    "appName": "soccer",
+    "roleName": "pinpointLambdaRole0128384c",
+    "cloudformationPolicyName": "cloudformationPolicy0128384c",
+    "cloudWatchPolicyName": "cloudWatchPolicy0128384c",
+    "pinpointPolicyName": "pinpointPolicy0128384c",
+    "authPolicyName": "pinpoint_amplify_0128384c",
+    "unauthPolicyName": "pinpoint_amplify_0128384c",
+    "authRoleName": {
+        "Ref": "AuthRoleName"
+    },
+    "unauthRoleName": {
+        "Ref": "UnauthRoleName"
+    },
+    "authRoleArn": {
+        "Fn::GetAtt": [
+            "AuthRole",
+            "Arn"
+        ]
+    },
+    "appId": "9d93a030f1054061be9d9c47e4685969"
+}

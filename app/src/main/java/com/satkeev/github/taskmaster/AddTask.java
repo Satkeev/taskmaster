@@ -12,8 +12,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.room.Database;
 import androidx.room.Room;
 
+import com.amplifyframework.analytics.AnalyticsEvent;
 import com.amplifyframework.api.graphql.model.ModelMutation;
 import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.core.Amplify;
@@ -21,6 +23,7 @@ import com.amplifyframework.datastore.generated.model.Task;
 import com.amplifyframework.datastore.generated.model.Team;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class AddTask extends AppCompatActivity implements TaskAdapter.OnInteractingWithTaskListener {
 
@@ -42,7 +45,12 @@ public class AddTask extends AppCompatActivity implements TaskAdapter.OnInteract
                 },
                 error -> Log.e(  "AmplifyAddTask",  "failed getting teams"));
 
-
+            AnalyticsEvent event = AnalyticsEvent.builder()
+                    .name("AddTask")
+                    .addProperty("time", Long.toString(new Date().getTime()))
+                    .addProperty("addTask", "added task")
+                    .build();
+            Amplify.Analytics.recordEvent(event);
 
 //        database = Room.databaseBuilder(getApplicationContext(), Database.class, "satkeev_tasks")
 //                .allowMainThreadQueries()
