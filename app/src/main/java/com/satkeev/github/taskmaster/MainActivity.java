@@ -29,6 +29,8 @@ import com.amazonaws.mobile.config.AWSConfiguration;
 import com.amazonaws.mobileconnectors.pinpoint.PinpointConfiguration;
 import com.amazonaws.mobileconnectors.pinpoint.PinpointManager;
 import com.amplifyframework.AmplifyException;
+import com.amplifyframework.analytics.AnalyticsEvent;
+import com.amplifyframework.analytics.pinpoint.AWSPinpointAnalyticsPlugin;
 import com.amplifyframework.api.aws.AWSApiPlugin;
 import com.amplifyframework.api.graphql.model.ModelMutation;
 import com.amplifyframework.api.graphql.model.ModelQuery;
@@ -48,6 +50,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Date;
 
 import io.reactivex.annotations.NonNull;
 
@@ -295,7 +298,12 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.OnInt
                 );
             }
         });
-
+        AnalyticsEvent event = AnalyticsEvent.builder()
+                .name("openedApp")
+                .addProperty("time", Long.toString(new Date().getTime()))
+                .addProperty("sofun", "we like tracking people")
+                .build();
+        Amplify.Analytics.recordEvent(event);
 }
 
 
@@ -392,6 +400,7 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.OnInt
                 // Add this line, to include the Auth plugin.
                 Amplify.addPlugin(new AWSCognitoAuthPlugin());
                 Amplify.addPlugin(new AWSS3StoragePlugin());
+                Amplify.addPlugin(new AWSPinpointAnalyticsPlugin(getApplication()));
                 Amplify.configure(getApplicationContext());
                 Log.i("MyAmplifyApp", "Initialized Amplify");
             } catch (AmplifyException e) {
