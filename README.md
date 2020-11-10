@@ -61,3 +61,14 @@ adjusted main page to display signed in username
 11/03/20
 added AWS S3 files for use S3 storage, and upload, retrieve files with
 images
+11/04/20
+linked to Firebase for push notifications
+attached Pinpoint push notifications through Firebase
+11/05/20
+added Amplify Analytics plugin
+created event tracking App Start
+added event tracking user button clicks
+linked Pinpoint stream to Kinesis
+11/09/20
+made image shares receivable to add task form
+shared images can now be saved with new task and viewed with task details

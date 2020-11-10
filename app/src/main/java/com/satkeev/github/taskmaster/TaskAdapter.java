@@ -1,15 +1,20 @@
 package com.satkeev.github.taskmaster;
 
+import android.graphics.BitmapFactory;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.Task;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder> {
@@ -63,10 +68,14 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         TextView taskNameTextView = holder.itemView.findViewById(R.id.task_name_title_fragment);
         TextView taskDetailsTextView = holder.itemView.findViewById(R.id.fragment_details);
         TextView taskStateTextView = holder.itemView.findViewById(R.id.fragment_state);
+        ImageView taskKeyImageView = holder.itemView.findViewById(R.id.image_fragment);
+        TextView taskName1TextView = holder.itemView.findViewById(R.id.team_name_fragment);
 
         taskNameTextView.setText(holder.task.title);
         taskDetailsTextView.setText(holder.task.body);
         taskStateTextView.setText(holder.task.state);
+        taskName1TextView.setText(holder.task.apartOf.getName());
+        taskKeyImageView.setImageBitmap(BitmapFactory.decodeFile(MainActivity.imageFile.getPath()));
     }
 
     @Override

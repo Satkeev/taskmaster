@@ -3,6 +3,7 @@ type Task @model {
   title: String
   body: String
   state: String
+  key: String
   apartOf: Team @connection (name: "teamTasks")
   }
 type Team @model {

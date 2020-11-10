@@ -98,12 +98,14 @@
         android:id="@+id/addtaskbutton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="50dp"
+        android:layout_marginBottom="56dp"
         android:text="Add Task"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.475"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.347"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/image_view"
+        app:layout_constraintVertical_bias="0.955" />
 
     <TextView
         android:id="@+id/textView2"
@@ -123,10 +125,28 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:text="StatusTask"
-        app:layout_constraintBottom_toTopOf="@+id/addtaskbutton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.875"
+        app:layout_constraintHorizontal_bias="0.835"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2"
-        app:layout_constraintVertical_bias="0.741" />
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+    <Button
+        android:id="@+id/photo_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="124dp"
+        android:layout_marginEnd="56dp"
+        android:text="Add Photo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/image_view" />
+
+    <ImageView
+        android:id="@+id/image_view"
+        android:layout_width="98dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="96dp"
+        android:layout_marginTop="28dp"
+        app:layout_constraintStart_toEndOf="@+id/heroytask_title"
+        app:layout_constraintTop_toBottomOf="@+id/status_task"
+        app:srcCompat="@android:drawable/ic_menu_report_image" />
 </androidx.constraintlayout.widget.ConstraintLayout>

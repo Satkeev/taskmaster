@@ -64,6 +64,8 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.OnInt
     Handler handleSingleItemAdded;
     int teamWeAreOnIndex = 0;
 
+    public static File imageFile;
+
     Handler handleCheckLoggedIn;
 
 
@@ -169,7 +171,7 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.OnInt
         configureAws();
 //        downloadFile();
         getPinpointManager(getApplicationContext());
-
+        downloadFile("soccer");
 
         tasks = new ArrayList<Task>();
 
@@ -414,6 +416,19 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.OnInt
             );
 
         }
+    private void downloadFile(String fileKey){
+        Amplify.Storage.downloadFile(
+                fileKey,
+                new File(getApplicationContext().getFilesDir() + "/" + fileKey + ".txt"),
+                result -> {
+                    Log.i("Amplify.s3down", "Successfully downloaded: " + result.getFile().getName());
+                    imageFile = result.getFile();
+
+                    // TODO: display the image
+                },
+                error -> Log.e("Amplify.s3down",  "Download Failure", error)
+        );
+    }
     }
 
 

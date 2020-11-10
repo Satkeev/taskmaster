@@ -229,6 +229,18 @@
                         "deprecationReason": null
                     },
                     {
+                        "name": "key",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "SCALAR",
+                            "name": "String",
+                            "ofType": null
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
                         "name": "apartOf",
                         "description": null,
                         "args": [],
@@ -450,6 +462,16 @@
                     },
                     {
                         "name": "state",
+                        "description": null,
+                        "type": {
+                            "kind": "INPUT_OBJECT",
+                            "name": "ModelStringInput",
+                            "ofType": null
+                        },
+                        "defaultValue": null
+                    },
+                    {
+                        "name": "key",
                         "description": null,
                         "type": {
                             "kind": "INPUT_OBJECT",
@@ -1427,6 +1449,16 @@
                         "defaultValue": null
                     },
                     {
+                        "name": "key",
+                        "description": null,
+                        "type": {
+                            "kind": "SCALAR",
+                            "name": "String",
+                            "ofType": null
+                        },
+                        "defaultValue": null
+                    },
+                    {
                         "name": "taskApartOfId",
                         "description": null,
                         "type": {
@@ -1469,6 +1501,16 @@
                     },
                     {
                         "name": "state",
+                        "description": null,
+                        "type": {
+                            "kind": "INPUT_OBJECT",
+                            "name": "ModelStringInput",
+                            "ofType": null
+                        },
+                        "defaultValue": null
+                    },
+                    {
+                        "name": "key",
                         "description": null,
                         "type": {
                             "kind": "INPUT_OBJECT",
@@ -1562,6 +1604,16 @@
                     },
                     {
                         "name": "state",
+                        "description": null,
+                        "type": {
+                            "kind": "SCALAR",
+                            "name": "String",
+                            "ofType": null
+                        },
+                        "defaultValue": null
+                    },
+                    {
+                        "name": "key",
                         "description": null,
                         "type": {
                             "kind": "SCALAR",
