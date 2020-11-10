@@ -6,10 +6,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.Objects;
 
-import androidx.annotation.NonNull;
 import androidx.core.util.ObjectsCompat;
-import androidx.room.Entity;
-import androidx.room.PrimaryKey;
 
 import com.amplifyframework.core.model.Model;
 import com.amplifyframework.core.model.annotations.Index;
@@ -21,20 +18,19 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the Task type in your schema. */
 @SuppressWarnings("all")
-@Entity
 @ModelConfig(pluralName = "Tasks")
 public final class Task implements Model {
   public static final QueryField ID = field("id");
   public static final QueryField TITLE = field("title");
   public static final QueryField BODY = field("body");
   public static final QueryField STATE = field("state");
+  public static final QueryField KEY = field("key");
   public static final QueryField APART_OF = field("taskApartOfId");
-  @NonNull
-  @PrimaryKey
   public final @ModelField(targetType="ID", isRequired = true) String id;
   public final @ModelField(targetType="String") String title;
   public final @ModelField(targetType="String") String body;
   public final @ModelField(targetType="String") String state;
+  public final @ModelField(targetType="String") String key;
   public final @ModelField(targetType="Team") @BelongsTo(targetName = "taskApartOfId", type = Team.class) Team apartOf;
   public String getId() {
       return id;
@@ -52,18 +48,22 @@ public final class Task implements Model {
       return state;
   }
   
+  public String getKey() {
+      return key;
+  }
+  
   public Team getApartOf() {
       return apartOf;
   }
   
-  public Task(String id, String title, String body, String state, Team apartOf) {
+  private Task(String id, String title, String body, String state, String key, Team apartOf) {
     this.id = id;
     this.title = title;
     this.body = body;
     this.state = state;
+    this.key = key;
     this.apartOf = apartOf;
   }
-
   
   @Override
    public boolean equals(Object obj) {
@@ -77,6 +77,7 @@ public final class Task implements Model {
               ObjectsCompat.equals(getTitle(), task.getTitle()) &&
               ObjectsCompat.equals(getBody(), task.getBody()) &&
               ObjectsCompat.equals(getState(), task.getState()) &&
+              ObjectsCompat.equals(getKey(), task.getKey()) &&
               ObjectsCompat.equals(getApartOf(), task.getApartOf());
       }
   }
@@ -88,6 +89,7 @@ public final class Task implements Model {
       .append(getTitle())
       .append(getBody())
       .append(getState())
+      .append(getKey())
       .append(getApartOf())
       .toString()
       .hashCode();
@@ -101,6 +103,7 @@ public final class Task implements Model {
       .append("title=" + String.valueOf(getTitle()) + ", ")
       .append("body=" + String.valueOf(getBody()) + ", ")
       .append("state=" + String.valueOf(getState()) + ", ")
+      .append("key=" + String.valueOf(getKey()) + ", ")
       .append("apartOf=" + String.valueOf(getApartOf()))
       .append("}")
       .toString();
@@ -134,6 +137,7 @@ public final class Task implements Model {
       null,
       null,
       null,
+      null,
       null
     );
   }
@@ -143,6 +147,7 @@ public final class Task implements Model {
       title,
       body,
       state,
+      key,
       apartOf);
   }
   public interface BuildStep {
@@ -151,6 +156,7 @@ public final class Task implements Model {
     BuildStep title(String title);
     BuildStep body(String body);
     BuildStep state(String state);
+    BuildStep key(String key);
     BuildStep apartOf(Team apartOf);
   }
   
@@ -160,6 +166,7 @@ public final class Task implements Model {
     private String title;
     private String body;
     private String state;
+    private String key;
     private Team apartOf;
     @Override
      public Task build() {
@@ -170,6 +177,7 @@ public final class Task implements Model {
           title,
           body,
           state,
+          key,
           apartOf);
     }
     
@@ -188,6 +196,12 @@ public final class Task implements Model {
     @Override
      public BuildStep state(String state) {
         this.state = state;
+        return this;
+    }
+    
+    @Override
+     public BuildStep key(String key) {
+        this.key = key;
         return this;
     }
     
@@ -220,11 +234,12 @@ public final class Task implements Model {
   
 
   public final class CopyOfBuilder extends Builder {
-    private CopyOfBuilder(String id, String title, String body, String state, Team apartOf) {
+    private CopyOfBuilder(String id, String title, String body, String state, String key, Team apartOf) {
       super.id(id);
       super.title(title)
         .body(body)
         .state(state)
+        .key(key)
         .apartOf(apartOf);
     }
     
@@ -241,6 +256,11 @@ public final class Task implements Model {
     @Override
      public CopyOfBuilder state(String state) {
       return (CopyOfBuilder) super.state(state);
+    }
+    
+    @Override
+     public CopyOfBuilder key(String key) {
+      return (CopyOfBuilder) super.key(key);
     }
     
     @Override
