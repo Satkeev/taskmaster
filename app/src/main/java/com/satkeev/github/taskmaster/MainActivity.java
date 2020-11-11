@@ -2,13 +2,19 @@ package com.satkeev.github.taskmaster;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.FileUtils;
@@ -21,6 +27,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.amazonaws.mobile.client.AWSMobileClient;
 import com.amazonaws.mobile.client.Callback;
@@ -39,6 +46,11 @@ import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.Task;
 import com.amplifyframework.datastore.generated.model.Team;
 import com.amplifyframework.storage.s3.AWSS3StoragePlugin;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
@@ -51,6 +63,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
 import io.reactivex.annotations.NonNull;
 
@@ -65,11 +79,12 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.OnInt
     int teamWeAreOnIndex = 0;
 
     public static File imageFile;
-
     Handler handleCheckLoggedIn;
-
-
     public static final String TAG = "Amplify";
+
+
+
+
 
     private static PinpointManager pinpointManager;
 
@@ -113,8 +128,8 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.OnInt
 
         super.onResume();
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        TextView address = findViewById(R.id.task_list_title);
-        address.setText(preferences.getString("namePotato", "Go to Settings username"));
+        TextView address1 = findViewById(R.id.task_list_title);
+        address1.setText(preferences.getString("namePotato", "Go to Settings username"));
 
         Amplify.API.query(
                 ModelQuery.list(Task.class),
@@ -122,7 +137,7 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.OnInt
                     tasks.clear();
                     for (Task task : response.getData()) {
                         if (preferences.contains("heroy")) {
-                            if (task.apartOf.getName().equals(preferences.getString("heroy", "na"))) {
+                            if (task.getApartOf().getName().equals(preferences.getString("heroy", "na"))) {
                                 tasks.add(task);
                             }
                         } else {
@@ -150,6 +165,14 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.OnInt
         setContentView(R.layout.activity_main);
 
 
+        configureAws();
+//        downloadFile();
+        getPinpointManager(getApplicationContext());
+        downloadFile("soccer");
+
+
+
+
         handleCheckLoggedIn = new Handler(Looper.getMainLooper(), message -> {
             if (message.arg1 == 0) {
                 Log.i("Amplify.login", "handler: they were not logged in");
@@ -168,10 +191,6 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.OnInt
         });
 
 
-        configureAws();
-//        downloadFile();
-        getPinpointManager(getApplicationContext());
-        downloadFile("soccer");
 
         tasks = new ArrayList<Task>();
 
@@ -315,6 +334,8 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.OnInt
         intent.putExtra("title", task.getTitle());
         intent.putExtra("body", task.getBody());
         intent.putExtra("state", task.getState());
+        intent.putExtra("address", task.getAddress());
+        intent.putExtra("key", task.getKey());
         this.startActivity(intent);
     }
 
@@ -416,6 +437,8 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.OnInt
             );
 
         }
+
+
     private void downloadFile(String fileKey){
         Amplify.Storage.downloadFile(
                 fileKey,
@@ -429,7 +452,8 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.OnInt
                 error -> Log.e("Amplify.s3down",  "Download Failure", error)
         );
     }
-    }
+
+}
 
 
 

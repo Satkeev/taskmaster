@@ -4,6 +4,7 @@ type Task @model {
   body: String
   state: String
   key: String
+  address: String
   apartOf: Team @connection (name: "teamTasks")
   }
 type Team @model {

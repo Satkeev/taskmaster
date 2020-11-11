@@ -37,9 +37,9 @@ public class TaskRecyclerView extends AppCompatActivity implements TaskAdapter.O
     @Override
     public void taskListener(Task task){
         Intent intent = new Intent(TaskRecyclerView.this, TaskDetails.class);
-        intent.putExtra("taskTitle", task.title);
-        intent.putExtra("taskBody", task.body);
-        intent.putExtra("taskState", task.state);
+        intent.putExtra("taskTitle", task.getTitle());
+        intent.putExtra("taskBody", task.getBody());
+        intent.putExtra("taskState", task.getState());
         this.startActivity(intent);
     }
 
