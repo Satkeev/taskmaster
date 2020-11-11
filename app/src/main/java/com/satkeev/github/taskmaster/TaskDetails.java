@@ -45,6 +45,11 @@ public class TaskDetails extends AppCompatActivity {
             setContentView(R.layout.task_details);
             Intent intent = getIntent();
 
+//            TextView locationTask = TaskDetails.this.findViewById(R.id.location_title);
+//            locationTask.setText(intent.getExtras().getString("address"));
+//
+
+
             Button getimage = com.satkeev.github.taskmaster.TaskDetails.this.findViewById(R.id.imagepic_button);
             getimage.setOnClickListener((view -> retrieveFile()));
         }
@@ -142,6 +147,7 @@ public class TaskDetails extends AppCompatActivity {
                 storageFailure -> Log.e("Amplify.S3", "Upload failed", storageFailure)
         );
     }
+
 
 
 }

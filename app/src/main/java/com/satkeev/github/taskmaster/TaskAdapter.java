@@ -50,7 +50,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                System.out.println(viewHolder.task.title);
+                System.out.println(viewHolder.task.getTitle());
                 listener.taskListener(viewHolder.task);
             }
         });
@@ -70,11 +70,15 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         TextView taskStateTextView = holder.itemView.findViewById(R.id.fragment_state);
         ImageView taskKeyImageView = holder.itemView.findViewById(R.id.image_fragment);
         TextView taskName1TextView = holder.itemView.findViewById(R.id.team_name_fragment);
+        TextView taskAddressTextView = holder.itemView.findViewById(R.id.addressview_title);
 
-        taskNameTextView.setText(holder.task.title);
-        taskDetailsTextView.setText(holder.task.body);
-        taskStateTextView.setText(holder.task.state);
-        taskName1TextView.setText(holder.task.apartOf.getName());
+
+        taskNameTextView.setText(holder.task.getTitle());
+        taskDetailsTextView.setText(holder.task.getBody());
+        taskStateTextView.setText(holder.task.getState());
+        taskAddressTextView.setText(holder.task.getAddress());
+
+        taskName1TextView.setText(holder.task.getApartOf().getName());
         taskKeyImageView.setImageBitmap(BitmapFactory.decodeFile(MainActivity.imageFile.getPath()));
     }
 
