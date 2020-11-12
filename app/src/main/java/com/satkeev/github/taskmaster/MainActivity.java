@@ -134,8 +134,11 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.OnInt
 
         super.onResume();
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        TextView address1 = findViewById(R.id.task_list_title);
-        address1.setText(preferences.getString("namePotato", "Go to Settings username"));
+        TextView username = findViewById(R.id.task_list_title);
+        username.setText(preferences.getString("namePotato", "Go to Settings username"));
+        if(Amplify.Auth.getCurrentUser() != null){
+            username.setText("username " + Amplify.Auth.getCurrentUser().getUsername());
+        }
 
         Amplify.API.query(
                 ModelQuery.list(Task.class),

@@ -41,7 +41,7 @@ public class Signup extends AppCompatActivity {
         });
     }
 
-    TextView task_state = findViewById(R.id.status_task);
+//    TextView task_state = findViewById(R.id.status_task);
 //                TextView task_address = findViewById(R.id._title);
 
 //
