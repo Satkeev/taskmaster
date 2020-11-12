@@ -20,12 +20,23 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+
+            android:value="ca-app-pub-3940256099942544~3347511713"/>
+
+
         <activity android:name=".ReceiveOwlMessageActivity"></activity>
         <activity android:name=".SignInActivity" />
         <activity android:name=".ConfirmationActivity" />
         <activity android:name=".Signup" />
         <activity android:name=".TaskRecyclerView" />
         <activity android:name=".AddTask">
+
+            <!-- Sample AdMob App ID: ca-app-pub-3940256099942544~3347511713 IMPORTANT ONLY USE THIS WHILE TESTING-->
+
+
 
             <intent-filter android:label="Owl Picture">
                 <action android:name="android.intent.action.SEND" />

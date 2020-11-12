@@ -73,7 +73,10 @@ linked Pinpoint stream to Kinesis
 made image shares receivable to add task form
 shared images can now be saved with new task and viewed with task details  
 11/10/20   
-made location on main page and save address  
+made location on main page and save address   
+ 11/11/20 Add a banner ad to  app using Admob  
+ 
+
 
 ![img1](assets/Screenshot%202020-10-19%20205009.png)
 ![img2](assets/Screenshot%202020-10-19%20225023.png)
@@ -120,6 +123,11 @@ made location on main page and save address
 ![img13](assets/Screenshot%202020-11-10%20232223.png)
 ![img14](assets/Screenshot%202020-11-10%20232247.png)
 ![img15](assets/Screenshot%202020-11-10%20232342.png)
+![img16](assets/Screenshot%202020-11-11%205175834.png)
+
+
+
+
 
 
 
