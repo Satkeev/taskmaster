@@ -184,6 +184,7 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.OnInt
 
 
         configureAws();
+//
 //        downloadFile();
         getPinpointManager(getApplicationContext());
         downloadFile("soccer");
