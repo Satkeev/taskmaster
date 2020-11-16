@@ -71,13 +71,6 @@ public class AddTask extends AppCompatActivity implements TaskAdapter.OnInteract
             configureLocationServices();
             askForLocation();
 
-            Intent intent = getIntent();
-        if(intent.getType() != null){
-            Log.i("Amplify.pick", intent.toString());
-            imageFromIntent = intent.getClipData().getItemAt(0).getUri();
-            ImageView image = findViewById(R.id.image_view);
-            image.setImageURI(imageFromIntent);
-        }
 
 
             Amplify.API.query(ModelQuery.list(Team.class),
@@ -123,19 +116,27 @@ public class AddTask extends AppCompatActivity implements TaskAdapter.OnInteract
                     // This will know about the image in `data`
                     // we can now send it to s3
 
-                    File fileCopy = new File(getFilesDir(), "test file");
+//                    File fileCopy = new File(getFilesDir(), "test file");
+//
+//                    Intent intent = getIntent();
+//                    if(intent.getType() != null){
+//                        Log.i("Amplify.pick", intent.toString());
+//                        imageFromIntent = intent.getClipData().getItemAt(0).getUri();
+//                        ImageView image = findViewById(R.id.image_view);
+//                        image.setImageURI(imageFromIntent);
+//                    }
 
-                    try {
-//                        System.out.println(data);
-                        InputStream inStream = getContentResolver().openInputStream(imageFromIntent);
-                        FileUtils.copy(inStream, new FileOutputStream(fileCopy));
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        Log.e("Amplify.pickImage", e.toString());
-                    }
+//                    try {
+////                        System.out.println(data);
+//                        InputStream inStream = getContentResolver().openInputStream(imageFromIntent);
+//                        FileUtils.copy(inStream, new FileOutputStream(fileCopy));
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                        Log.e("Amplify.pickImage", e.toString());
+//                    }
 
-                    uploadFile(fileCopy, "soccer");
-                    downloadFile("soccer");
+//                    uploadFile(fileCopy, "soccer");
+//                    downloadFile("soccer");
 
                 }
 
@@ -165,9 +166,9 @@ public class AddTask extends AppCompatActivity implements TaskAdapter.OnInteract
                      e.printStackTrace();
                      Log.e("Amplify.pickImage", e.toString());
                  }
-
-                 uploadFile(fileCopy, "soccer");
-                 downloadFile("soccer");
+//
+//                 uploadFile(fileCopy, "soccer");
+//                 downloadFile("soccer");
 
              }
 
@@ -310,6 +311,65 @@ public class AddTask extends AppCompatActivity implements TaskAdapter.OnInteract
     public void configureLocationServices(){
         locationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         // fuses the multiple location requests into one big one, gives you the most accurate that comes back
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.Q)
+    @Override // This built in method we are overriding handles ALL results from when we leave the app
+    protected void onActivityResult(int requestCodePotato, int resultCode, Intent data) {
+        super.onActivityResult(requestCodePotato, resultCode, data);
+
+        if(requestCodePotato == 2020){
+            Log.i("Amplify.pickImage", "Got the image back from the activity");
+            // This will know about the image in `data`
+            // we can now send it to s3
+
+            File fileCopy = new File(getFilesDir(), "test file");
+
+            try {
+                System.out.println(data);
+                InputStream inStream = getContentResolver().openInputStream(data.getData());
+                FileUtils.copy(inStream, new FileOutputStream(fileCopy));
+            } catch (IOException e) {
+                e.printStackTrace();
+                Log.e("Amplify.pickImage", e.toString());
+            }
+            Log.i("Amplify.pickImage", "Got the image back from the activity");
+            // This will know about the image in `data`
+            // we can now send it to s3
+
+//            File fileCopy = new File(getFilesDir(), "test file");
+
+//            Intent intent = getIntent();
+//            if(intent.getType() != null){
+//                Log.i("Amplify.pick", intent.toString());
+//                imageFromIntent = intent.getClipData().getItemAt(0).getUri();
+//                ImageView image = findViewById(R.id.image_view);
+//                image.setImageURI(imageFromIntent);
+//            }
+
+            try {
+//                        System.out.println(data);
+                InputStream inStream = getContentResolver().openInputStream(data.getData());
+                FileUtils.copy(inStream, new FileOutputStream(fileCopy));
+            } catch (IOException e) {
+                e.printStackTrace();
+                Log.e("Amplify.pickImage", e.toString());
+            }
+
+            uploadFile(fileCopy, "soccer");
+            downloadFile("soccer");
+
+
+
+//            uploadFile(fileCopy, "soccer");
+//            downloadFile("soccer");
+        } else if(requestCodePotato == 2){
+            // this implies I ran the line somewhere
+            // startActivityForResult(shareToFacebookIntent, 2);
+            Log.i("Amplify.doesnotexist", "good job you shared to facebook");
+        } else {
+            Log.i("Amplify.pickImage", "How the heck are you talking to my app??????");
+        }
     }
 }
 
